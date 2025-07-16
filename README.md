@@ -41,7 +41,6 @@ python gui.py
 
 - Drag & drop GUI (PyQt5)
 - File thumbnails & clear/reset buttons
-- Multi-language UI (18 languages)
 - Embeds multiple files as ZIP
 - Config file remembers chosen language
 - Smart detection of hidden content
@@ -114,7 +113,6 @@ python gui.py
 
 - Drag-n-drop интерфейс
 - Миниатюры файлов и кнопки очистки
-- Поддержка 18 языков
 - Автоматическое создание ZIP при встраивании нескольких файлов
 - Умная логика: "ФАЙЛ ПУСТ" и "ФАЙЛ НЕ СОДЕРЖИТ ДРУГОЙ ИНФОРМАЦИИ"
 
