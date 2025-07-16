@@ -35,10 +35,34 @@ def guess_extension(data):
         return ".gif"
     elif data.startswith(b'BM'):
         return ".bmp"
-    elif data.startswith(b'ID3') or data[0:2] == b'\xFF\xFB':
+    elif data.startswith(b'RIFF') and b'WAVE' in data[8:16]:
+        return ".wav"
+    elif data.startswith(b'ID3') or data[0:2] in (b'\xFF\xFB', b'\xFF\xF3', b'\xFF\xF2'):
         return ".mp3"
+    elif data[4:8] == b'ftyp':
+        return ".mp4"
+    elif data.startswith(b'<?xml'):
+        return ".xml"
+    elif data.startswith(b'{') and b'"' in data[:100]:
+        return ".json"
+    elif data[:4] == b'\x7fELF':
+        return ".elf"
+    elif data[:2] == b'MZ':
+        return ".exe"
+    elif is_probably_text(data):
+        return ".txt"
     else:
         return ".bin"
+
+def is_probably_text(data: bytes, threshold: float = 0.9) -> bool:
+    if b'\x00' in data:
+        return False  # null bytes mean it's binary
+    try:
+        text = data.decode('utf-8', errors='ignore')
+        readable = sum(1 for c in text if c.isprintable())
+        return (readable / len(text)) >= threshold if text else False
+    except:
+        return False
 
 def create_zip(files, zip_path):
     with zipfile.ZipFile(zip_path, "w") as z:
